@@ -9,39 +9,27 @@
 <body>
     <h1 style="color: blue">{{ message }}</h1>
     <div id="editor"></div>
-    <script src="/assets/js/ckeditor.js"></script>
+    <script src="/js/ckeditor.js"></script>
     <script src="/assets/js/ckfinder.js"></script>
     <script>
         ClassicEditor
             .create(document.querySelector('#editor'), {
-                plugins: [
-                    'AutoImage',
-                    'CKFinder',
-                    'CKFinderUploadAdapter',
-                    'Essentials',
-                    'Image',
-                    'ImageCaption',
-                    'ImageInsert',
-                    'ImageStyle',
-                    'ImageToolbar',
-                    'ImageUpload',
-                    'Link',
-                    'LinkImage',
-                    'MediaEmbed',
-                    'Paragraph',
-                    'PasteFromOffice'
-                ],
-                toolbar: ['ckfinder', 'insertImage'], // Depending on your preference.
+                toolbar: ['ckfinder', 'imageUpload', 'imageInsert', 'mediaEmbed'], // Depending on your preference.
                 ckfinder: {
                     // Upload the images to the server using the CKFinder QuickUpload command.
-                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&responseType=json',
 
                     // Define the CKFinder configuration (if necessary).
                     options: {
-                        connectorPath: '/ckfinder/core/connector/php/connector.php?command=Init&responseType=json',
+                        connectorPath: '/ckfinder/core/connector/php/connector.php',
                         resourceType: 'Images'
                     }
                 }
+            })
+            .then(editor => {
+                setInterval(() => {
+                    console.log(editor.getData())
+                }, 5000)
             })
             .catch(error => {
                 console.log(error);
