@@ -2,12 +2,51 @@
 <html>
 
 <head>
-  <meta charset="utf-8">
-  <title>App</title>
+    <meta charset="utf-8">
+    <title>App</title>
 </head>
 
 <body>
-  <h1 style="color: red">{{ message }}</h1>
+    <h1 style="color: blue">{{ message }}</h1>
+    <div id="editor"></div>
+    <script src="/assets/js/ckeditor.js"></script>
+    <script src="/assets/js/ckfinder.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                plugins: [
+                    'AutoImage',
+                    'CKFinder',
+                    'CKFinderUploadAdapter',
+                    'Essentials',
+                    'Image',
+                    'ImageCaption',
+                    'ImageInsert',
+                    'ImageStyle',
+                    'ImageToolbar',
+                    'ImageUpload',
+                    'Link',
+                    'LinkImage',
+                    'MediaEmbed',
+                    'Paragraph',
+                    'PasteFromOffice'
+                ],
+                toolbar: ['ckfinder', 'insertImage'], // Depending on your preference.
+                ckfinder: {
+                    // Upload the images to the server using the CKFinder QuickUpload command.
+                    uploadUrl: '/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images&responseType=json',
+
+                    // Define the CKFinder configuration (if necessary).
+                    options: {
+                        connectorPath: '/ckfinder/core/connector/php/connector.php?command=Init&responseType=json',
+                        resourceType: 'Images'
+                    }
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    </script>
 </body>
 
 </html>

@@ -1,8 +1,8 @@
-FROM node:12.19.0-alpine3.9 AS development
+FROM node:12.19.0 AS development
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY ./nestmvc/package*.json ./
 
 RUN npm install glob rimraf
 
@@ -12,19 +12,19 @@ COPY . .
 
 RUN npm run build
 
-FROM node:12.19.0-alpine3.9 as production
+# FROM node:12.19.0 as production
 
-ARG NODE_ENV=production
-ENV NODE_ENV=${NODE_ENV}
+# ARG NODE_ENV=production
+# ENV NODE_ENV=${NODE_ENV}
 
-WORKDIR /usr/src/app
+# WORKDIR /usr/src/app
 
-COPY package*.json ./
+# COPY ./nestmvc/package*.json ./
 
-RUN npm install --only=production
+# RUN npm install --only=production
 
-COPY . .
+# COPY . .
 
-COPY --from=development /usr/src/app/dist ./dist
+# COPY --from=development /usr/src/app/dist ./dist
 
-CMD ["node", "dist/main"]
+# CMD ["node", "dist/main"]
